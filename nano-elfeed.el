@@ -23,7 +23,6 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 (require 's)
-(require 'hl-line)
 (require 'relative-date)
 (require 'elfeed)
 (require 'elfeed-org)
@@ -192,11 +191,7 @@
         right-margin-width 0)
   (set-window-buffer nil (current-buffer))
 
-  (setq hl-line-overlay-priority 100)
-  (hl-line-mode -1)
   (setq cursor-type nil)
-  (face-remap-add-relative 'hl-line :inherit 'nano-faded-i)
-  (hl-line-mode t)
   )
 
 (defun nano-elfeed-show-mode ()
