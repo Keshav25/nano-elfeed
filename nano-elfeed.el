@@ -30,7 +30,7 @@
 (require 'nano-theme)
 
 (defconst nano-elfeed--rss-icon-data
-"<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <svg xmlns=\"http://www.w3.org/2000/svg\" id=\"RSSicon\" viewBox=\"0 0 8 8\" width=\"256\" height=\"256\">
   <title>RSS feed icon</title>
   <style type=\"text/css\">
@@ -64,11 +64,11 @@
     (plist-put (cdr thumbnail) :margin (cons (/ margin 2) 0))
     (plist-put (cdr thumbnail) :ascent 80)
     (cons (propertize (make-string char-width ?-)
-                                  'display (list (list 'slice 0  0 icon-width ch) thumbnail)
-                                  'line-height t)
+                      'display (list (list 'slice 0  0 icon-width ch) thumbnail)
+                      'line-height t)
           (propertize (make-string char-width ?-)
-                                  'display (list (list 'slice 0  ch icon-width ch) thumbnail)
-                                  'line-height t))))
+                      'display (list (list 'slice 0  ch icon-width ch) thumbnail)
+                      'line-height t))))
 
 (defvar nano-elfeed-icon-path "~/Documents/GitHub/nano-elfeed/icons")
 
@@ -95,14 +95,14 @@
 (defun nano-elfeed-get-icon (name unread)
   (let ((icon (alist-get (s-trim name) nano-elfeed-icons nil nil #'equal)))
     (when icon (if unread (car icon) (cdr icon)))))
-  
+
 (defvar nano-elfeed-rss-icon-active
-      (nano-elfeed--make-icon
-       (create-image (format nano-elfeed--rss-icon-data "orange") 'svg t)))
+  (nano-elfeed--make-icon
+   (create-image (format nano-elfeed--rss-icon-data "orange") 'svg t)))
 
 (defvar nano-elfeed-rss-icon-inactive
-      (nano-elfeed--make-icon
-       (create-image (format nano-elfeed--rss-icon-data "#90A4AE") 'svg t)))
+  (nano-elfeed--make-icon
+   (create-image (format nano-elfeed--rss-icon-data "#90A4AE") 'svg t)))
 
 (defun nano-elfeed-entry (title subtitle date unread &optional no-newline)
   (let* ((icon (or (nano-elfeed-get-icon title unread)
@@ -117,58 +117,58 @@
          (background-color (face-background 'highlight))
          (border-color     (face-background 'default))
          (face-upper    `(:foreground ,foreground-color
-                          :background ,background-color
-                          :overline ,border-color))
+									  :background ,background-color
+									  :overline ,border-color))
          (face-title    `(:foreground ,foreground-color
-                          :background ,background-color
-                          :weight ,(face-attribute 'bold :weight)
-                          :overline ,border-color))
+									  :background ,background-color
+									  :weight ,(face-attribute 'bold :weight)
+									  :overline ,border-color))
          (face-subtitle `(:foreground ,foreground-color
-                          :background ,background-color
-                          :family "Roboto Condensed"
-                          :height 160
-                          :underline nil
-;;                                     (:color ,border-color
-;;                                      :style line
-;;                                      :position t)
-                          ))
+									  :background ,background-color
+									  :family "Roboto Condensed"
+									  :height 160
+									  :underline nil
+									  ;;                                     (:color ,border-color
+									  ;;                                      :style line
+									  ;;                                      :position t)
+									  ))
          (face-lower    `(:foreground ,foreground-color
-                          :background ,background-color
-                          :underline nil
-;;                                     (:color ,border-color
-;;                                      :style line
-;;                                      :position t)
-                          )))
+									  :background ,background-color
+									  :underline nil
+									  ;;                                     (:color ,border-color
+									  ;;                                      :style line
+									  ;;                                      :position t)
+									  )))
     (insert (concat
-     ;; Upper part
-;;     (propertize " " 'face `(:background ,border-color)
-;;                     'display '((raise 0.5) (space :width (1))))
-     (propertize " " 'face face-upper 'display '(raise 0.5))
-     (propertize (car icon) 'face face-upper)
-     (propertize " " 'face face-upper)
-     (propertize title 'face face-title 'elfeed-entry t)
-     (propertize " " 'face face-upper
-                     'display `(space :align-to (- right ,(length date) 2)))
-     (propertize date 'face face-upper)
-     (propertize " " 'face face-upper
-                     'display '(space :align-to (- right (0))))
-;;     (propertize " " 'face `(:background ,border-color)
-;;                     'display '(space :width (1)))
-     (propertize " " 'display "\n")
+			 ;; Upper part
+			 ;;     (propertize " " 'face `(:background ,border-color)
+			 ;;                     'display '((raise 0.5) (space :width (1))))
+			 (propertize " " 'face face-upper 'display '(raise 0.5))
+			 (propertize (car icon) 'face face-upper)
+			 (propertize " " 'face face-upper)
+			 (propertize title 'face face-title 'elfeed-entry t)
+			 (propertize " " 'face face-upper
+						 'display `(space :align-to (- right ,(length date) 2)))
+			 (propertize date 'face face-upper)
+			 (propertize " " 'face face-upper
+						 'display '(space :align-to (- right (0))))
+			 ;;     (propertize " " 'face `(:background ,border-color)
+			 ;;                     'display '(space :width (1)))
+			 (propertize " " 'display "\n")
 
-     ;; Lower part
-;;     (propertize " " 'face `(:background ,border-color)
-;;                     'display '((raise -0.5) (space :width (1))))
-     (propertize " " 'face face-lower 'display '(raise -0.5))
-     (propertize (cdr icon) 'face face-lower)
-     (propertize " " 'face face-lower)
-     (propertize subtitle 'face face-subtitle)
-     (propertize " " 'face face-lower
-                     'display '(space :align-to (- right (0))))
-;;     (propertize " " 'face `(:background ,border-color)
-;;                 'display '(space :width (1)))
-     (unless no-newline
-       (propertize "\n"))))))
+			 ;; Lower part
+			 ;;     (propertize " " 'face `(:background ,border-color)
+			 ;;                     'display '((raise -0.5) (space :width (1))))
+			 (propertize " " 'face face-lower 'display '(raise -0.5))
+			 (propertize (cdr icon) 'face face-lower)
+			 (propertize " " 'face face-lower)
+			 (propertize subtitle 'face face-subtitle)
+			 (propertize " " 'face face-lower
+						 'display '(space :align-to (- right (0))))
+			 ;;     (propertize " " 'face `(:background ,border-color)
+			 ;;                 'display '(space :width (1)))
+			 (unless no-newline
+			   (propertize "\n"))))))
 
 
 (defun nano-elfeed-search-print-entry (entry)
@@ -201,7 +201,7 @@
 
 (defun nano-elfeed-show-mode ()
   (visual-line-mode)
-;;  (setq truncate-lines t)
+  ;;  (setq truncate-lines t)
   (let ((inhibit-read-only t)
         (inhibit-modification-hooks t))
     (setq-local truncate-lines nil)
@@ -238,7 +238,7 @@
 
 (setq elfeed-search-filter "@1-weeks-ago +unread"          
       elfeed-search-print-entry-function
-           #'nano-elfeed-search-print-entry)
+      #'nano-elfeed-search-print-entry)
 
 (bind-key "<down>" #'nano-elfeed-next-entry 'elfeed-search-mode-map)
 (bind-key "n" #'nano-elfeed-next-entry 'elfeed-search-mode-map)
